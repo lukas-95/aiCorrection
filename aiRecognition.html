@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Correção de texto</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="app" class="container mx-auto">
+        <h1 class="text-3xl font-bold mb-8">Correção de texto</h1>
+        <button @click="startRecognition" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Iniciar</button>
+        <div class="mt-8">
+            <p class="text-lg font-bold">Texto Falado:</p>
+            <p v-if="spokenText" class="mt-2">{{ spokenText }}</p>
+        </div>
+        <div class="mt-8">
+            <p class="text-lg font-bold">Texto Corrigido:</p>
+            <p v-if="correctedText" class="mt-2">{{ correctedText }}</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                spokenText: '',
+                correctedText: ''
+            },
+            methods: {
+                startRecognition() {
+                    console.log('Reconhecimento de voz iniciado.');
+                    
+                    // Aqui você pode adicionar a lógica para iniciar o reconhecimento de voz usando a API ou biblioteca de sua escolha
+                    // Certifique-se de obter o texto falado e atribuí-lo à variável spokenText
+
+                    // Exemplo para fins de teste
+                    var spokenText = "Texto falado";  // Substitua essa variável com o texto falado obtido do reconhecimento de voz
+
+                    // Exibir o texto falado
+                    this.spokenText = spokenText;
+
+                    // Enviar o texto falado para a API OpenAI para completions de chat
+                    this.sendToOpenAI(spokenText);
+                },
+                sendToOpenAI(text) {
+                    axios.post('https://api.openai.com/v1/engines/davinci/completions', {
+                        prompt: text,
+                        max_tokens: 100,
+                        temperature: 0.7,
+                        n: 1,
+                    }, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer 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'
+                        }
+                    })
+                    .then(response => {
+                        // Obter a resposta do modelo de IA
+                        var modelResponse = response.data.choices[0].text;
+
+                        // Exibir a resposta do modelo
+                        this.correctedText = modelResponse;
+                    })
+                    .catch(error => {
+                        console.log('Erro ao chamar a API OpenAI.');
+                        console.log(error);
+                        console.log(error.response);
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

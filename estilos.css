@@ -1,0 +1,59 @@
+// Definição das cores
+$cor-primaria: #4C51BF;
+$cor-secundaria: #FECACA;
+
+// Estilos gerais
+body {
+  font-family: Arial, sans-serif;
+  background-color: #F3F4F6;
+  padding: 20px;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #FFF;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: bold;
+  color: $cor-primaria;
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: $cor-primaria;
+  color: #FFF;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken($cor-primaria, 10%);
+  }
+}
+
+.texto-falado,
+.texto-corrigido {
+  background-color: $cor-secundaria;
+  color: #333;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.texto-falado {
+  font-weight: bold;
+}
+
+.texto-corrigido {
+  font-style: italic;
+}
